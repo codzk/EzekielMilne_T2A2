@@ -17,17 +17,17 @@ class Appointment(db.Model):
 
 
 
-    class AppointmentSchema(ma.Schema):
+class AppointmentSchema(ma.Schema):
         
-        user = fields.Nested("UserSchema", only = ['name', 'email'])
+    user = fields.Nested("UserSchema", only = ['email'])
 
-        class Meta:
+    class Meta:
 
-            fields = ('id', 'name', 'date', 'reason', 'user')
+        fields = ('id', 'name', 'date', 'reason', 'user')
 
 
-    appointment_schema = AppointmentSchema
-    appointments_schema = AppointmentSchema (many=True)
+appointment_schema = AppointmentSchema
+appointments_schema = AppointmentSchema(many=True)
 
 
     
