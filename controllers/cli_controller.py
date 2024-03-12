@@ -1,6 +1,10 @@
+
 from flask import Blueprint
 from init import db, bcrypt
 from models.user import User
+
+
+
 
 db_commands = Blueprint('db', __name__)
 
@@ -26,6 +30,24 @@ def seed_tables():
     ]
 
     db.session.add_all(user)
+
+    appointment = [
+        Appointment(
+            appointmentname= "Lebron James",
+            appointmentdate= date.today(),
+            appointmenttype= "General Check-up",
+            
+            
+
+        ),
+
+       
+    ]
+
+    db.session.add_all(appointment)
+
+
     db.session.commit()
 
     print("Tables Seeded")
+
