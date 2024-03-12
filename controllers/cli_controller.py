@@ -1,8 +1,8 @@
-
+from datetime import date
 from flask import Blueprint
 from init import db, bcrypt
 from models.user import User
-
+from models.appointment import Appointment
 
 
 
@@ -18,6 +18,7 @@ def create_tables():
 def drop_tables():
     db.drop_all()
     print("Tables Dropped")
+    
 
 @db_commands.cli.command('seed')
 def seed_tables():
@@ -31,20 +32,20 @@ def seed_tables():
 
     db.session.add_all(user)
 
-    appointment = [
+    appointments = [
+        
         Appointment(
-            appointmentname= "Lebron James",
-            appointmentdate= date.today(),
-            appointmenttype= "General Check-up",
-            
-            
 
-        ),
-
-       
+            name= "Lebron James",
+            date= date.today(),
+            reason= "General Check-up",
+            user=user[0]
+            
+        
+        )
     ]
 
-    db.session.add_all(appointment)
+    db.session.add_all(appointments)
 
 
     db.session.commit()

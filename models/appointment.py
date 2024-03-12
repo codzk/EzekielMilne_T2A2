@@ -1,14 +1,16 @@
-
 from init import db, ma
+from marshmallow import fields
+from models.user import User
 
 class Appointment(db.Model):
     __tablename__ = "appointments"
 
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
     date = db.Column(db.Date, nullable=False)
     reason = db.Column(db.String, nullable=False)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     user = db.relationship('User', back_populates='appointments')
 
@@ -21,7 +23,7 @@ class Appointment(db.Model):
 
         class Meta:
 
-            fields = ('id', 'date', 'reason', 'user')
+            fields = ('id', 'name', 'date', 'reason', 'user')
 
 
     appointment_schema = AppointmentSchema
