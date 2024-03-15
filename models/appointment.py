@@ -3,6 +3,11 @@ from marshmallow import fields
 from models.user import User
 from models.doctor import Doctor
 from models.patient import Patient
+from models.billing import Billing
+
+
+
+
 
 class Appointment(db.Model):
     __tablename__ = "appointments"
@@ -23,6 +28,12 @@ class Appointment(db.Model):
     patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
 
     patient = db.relationship('Patient', back_populates="appointments")
+    
+    billing_id = db.Column(db.Integer, db.ForeignKey('billings.id'), nullable=False)
+
+    billing = db.relationship("Billing", back_populates="appointments")
+
+
 
 
 
@@ -37,13 +48,19 @@ class AppointmentSchema(ma.Schema):
 
     patient = fields.Nested("PatientSchema", only = ['name','contact_information'])
 
+    billing = fields.Nested("BillingSchema", only= ['id','amount_due','payment_status'])
+
     class Meta:
 
-        fields = ('id', 'name', 'date', 'reason', 'user', 'doctor', 'patient')
+        fields = ('id', 'name', 'date', 'reason', 'user', 'doctor', 'patient', 'billing')
 
 
-appointment_schema = AppointmentSchema
+appointment_schema = AppointmentSchema()
 appointments_schema = AppointmentSchema(many=True)
+
+# def get_billing_model():
+#     from models.billing import Billing
+#     return Billing
 
 
     

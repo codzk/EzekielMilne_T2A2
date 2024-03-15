@@ -4,6 +4,7 @@ from models.user import User
 from models.appointment import Appointment
 from models.doctor import Doctor
 from models.patient import Patient
+from models.billing import Billing
 
 db_commands = Blueprint('db', __name__)
 
@@ -17,6 +18,7 @@ def drop_tables():
     db.drop_all()
     print("Tables Dropped")
 
+@db_commands.cli.command('seed')
 @db_commands.cli.command('seed')
 def seed_tables():
     # Create a user
@@ -96,6 +98,14 @@ def seed_tables():
         )
     ]
     db.session.add_all(appointments)
+
+    # Create billings for each appointment
+    billings = [
+        Billing(amount_due=100, payment_status="Pending", appointments=[appointments[0]]),
+        Billing(amount_due=150, payment_status="Paid", appointments=[appointments[1]]),
+        Billing(amount_due=200, payment_status="Pending", appointments=[appointments[2]])
+    ]
+    db.session.add_all(billings)
 
     # Commit all changes to the database
     db.session.commit()
