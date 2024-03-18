@@ -19,3 +19,4 @@ class PatientSchema(ma.Schema):
         fields = ('id', 'name', 'contact_information')
 
 patient_schema = PatientSchema()
+patients_schema = PatientSchema(many=True)

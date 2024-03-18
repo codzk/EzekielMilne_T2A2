@@ -25,7 +25,13 @@ def create_app():
     from controllers.auth_controller import auth_bp
     app.register_blueprint(auth_bp)
 
-    from controllers.appointment_controller import appointment_bp
-    app.register_blueprint(appointment_bp)
+    from controllers.appointment_controller import appointments_bp
+    app.register_blueprint(appointments_bp)
+
+    from controllers.doctor_controller import doctors_bp
+    app.register_blueprint(doctors_bp)
+
+    from controllers.patient_controller import patients_bp
+    app.register_blueprint(patients_bp)
 
     return app

@@ -21,3 +21,4 @@ class DoctorSchema(ma.Schema):
         fields = ('id','name','contact_information','specialty')
 
 doctor_schema = DoctorSchema()
+doctors_schema = DoctorSchema(many=True)
