@@ -10,17 +10,19 @@ db_commands = Blueprint('db', __name__)
 
 @db_commands.cli.command('create')
 def create_tables():
+    """Create database tables."""
     db.create_all()
     print("Tables Created")
 
 @db_commands.cli.command('drop')
 def drop_tables():
+    """Drop all database tables."""
     db.drop_all()
     print("Tables Dropped")
 
 @db_commands.cli.command('seed')
-@db_commands.cli.command('seed')
 def seed_tables():
+    """Seed database with initial data."""
     # Create a user
     user = User(
         name="Rodrigo Duterte",
