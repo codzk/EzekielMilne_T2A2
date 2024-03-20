@@ -1,13 +1,14 @@
-# Import necessary modules
 from flask import Blueprint, request, jsonify
 from init import db
 from models.doctor import Doctor, doctors_schema, doctor_schema
+from flask_jwt_extended import jwt_required
 
 # Create a Blueprint for doctor-related routes
 doctors_bp = Blueprint('doctors', __name__, url_prefix='/doctors')
 
 # Endpoint to get all doctors
 @doctors_bp.route('/', methods=['GET'])
+@jwt_required()
 def get_all_doctors():
     try:
         stmt = db.select(Doctor)
@@ -18,6 +19,7 @@ def get_all_doctors():
 
 # Endpoint to get a specific doctor by ID
 @doctors_bp.route('/<int:doctor_id>', methods=['GET'])
+@jwt_required()
 def get_one_doctor(doctor_id):
     try:
         stmt = db.select(Doctor).filter_by(id=doctor_id)
@@ -31,6 +33,7 @@ def get_one_doctor(doctor_id):
 
 # Endpoint to create a new doctor
 @doctors_bp.route('/', methods=['POST'])
+@jwt_required()
 def create_doctor():
     try:
         data = request.json
@@ -49,6 +52,7 @@ def create_doctor():
 
 # Endpoint to update an existing doctor
 @doctors_bp.route('/<int:doctor_id>', methods=['PUT', 'PATCH'])
+@jwt_required()
 def update_doctor(doctor_id):
     try:
         data = request.json
@@ -68,6 +72,7 @@ def update_doctor(doctor_id):
 
 # Endpoint to delete a doctor
 @doctors_bp.route('/<int:doctor_id>', methods=['DELETE'])
+@jwt_required()
 def delete_doctor(doctor_id):
     try:
         doctor = Doctor.query.get(doctor_id)

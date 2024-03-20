@@ -1,5 +1,5 @@
-# Import necessary modules
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required
 from init import db
 from models.patient import Patient, patient_schema, patients_schema
 
@@ -8,6 +8,7 @@ patients_bp = Blueprint('patients', __name__, url_prefix='/patients')
 
 # Endpoint to get all patients
 @patients_bp.route('/', methods=['GET'])
+@jwt_required()
 def get_all_patients():
     try:
         stmt = db.select(Patient)
@@ -18,6 +19,7 @@ def get_all_patients():
 
 # Endpoint to get a specific patient by ID
 @patients_bp.route('/<int:patient_id>', methods=['GET'])
+@jwt_required()
 def get_one_patient(patient_id):
     try:
         stmt = db.select(Patient).filter_by(id=patient_id)

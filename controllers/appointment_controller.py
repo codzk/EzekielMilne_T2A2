@@ -9,6 +9,7 @@ from models.billing import Billing
 appointments_bp = Blueprint('appointments', __name__, url_prefix='/appointments')
 
 @appointments_bp.route('/', methods=['GET'])
+@jwt_required()
 def get_all_appointments():
     try:
         appointments = Appointment.query.order_by(Appointment.date.desc()).all()
@@ -17,6 +18,7 @@ def get_all_appointments():
         return jsonify({"error": str(e)}), 500
 
 @appointments_bp.route('/<int:appointment_id>', methods=['GET'])
+@jwt_required()
 def get_one_appointment(appointment_id):
     try:
         appointment = Appointment.query.get(appointment_id)
@@ -70,6 +72,7 @@ def create_appointment():
         return jsonify({"error": str(e)}), 500
 
 @appointments_bp.route('/<int:appointment_id>', methods=["DELETE"])
+@jwt_required()
 def delete_appointment(appointment_id):
     try:
         appointment = Appointment.query.get(appointment_id)
@@ -83,6 +86,7 @@ def delete_appointment(appointment_id):
         return jsonify({"error": str(e)}), 500
 
 @appointments_bp.route("/<int:appointment_id>", methods=["PUT", "PATCH"])
+@jwt_required()
 def update_appointment(appointment_id):
     try:
         body_data = request.get_json()
